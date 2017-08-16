@@ -25,6 +25,5 @@ class PagesController extends Controller
         // replace this example code with whatever you need
         return $this->render('AppBundle:Pages:contacts.html.twig');
     }
-
 }
 
