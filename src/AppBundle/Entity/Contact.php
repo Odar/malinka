@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity()
  */
-class CompanyInfo
+class Contact
 {
     /**
      * @ORM\Column(type="integer")
@@ -38,16 +38,11 @@ class CompanyInfo
         return $this->id;
     }
 
-    public function __construct()
-    {
-        $this->addedAt = new \DateTime();
-    }
-
     /**
      * Set text
      *
      * @param string $text
-     * @return CompanyInfo
+     * @return Contact
      */
     public function setText($text)
     {
@@ -67,9 +62,22 @@ class CompanyInfo
     }
 
     /**
+     * Set addedAt
+     *
+     * @param \DateTime $addedAt
+     * @return Contact
+     */
+    public function setAddedAt($addedAt)
+    {
+        $this->addedAt = $addedAt;
+
+        return $this;
+    }
+
+    /**
      * Get addedAt
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getAddedAt()
     {
