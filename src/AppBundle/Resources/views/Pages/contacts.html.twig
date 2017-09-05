@@ -1,12 +1,16 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    Contacts
- {{ cont.text }}
+      Contacts
+    {# {{ cont.text|raw }}#}
+
+      {% for item in cont %}
+          </br>{{ item.text}}
+          {% endfor %}
 
        {{ form_start(form) }}
 
-       {{ form_row(form.name, {'attr': {'class':'input'}}) }}
+       {{ form_row(form.name, {'attr': {'class': 'input'}}) }}
        {{ form_errors(form.name) }}
      {#  {{ form_label(form.name) }} #}
        {{ form_widget(form.name, {'attr': {'class':'my_input'}}) }}

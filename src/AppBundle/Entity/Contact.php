@@ -38,6 +38,12 @@ class Contact
         return $this->id;
     }
 
+
+    public function __construct()
+    {
+        $this->addedAt = new \DateTime();
+    }
+
     /**
      * Set text
      *
