@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\CompanyInfo;
 use AppBundle\Entity\Contact;
 use AppBundle\Entity\Feedback;
+use AppBundle\Form\FeedBackType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -57,13 +58,7 @@ class PagesController extends Controller
     {
 
         $feedback = new Feedback();
-        $form = $this->createFormBuilder($feedback)
-            ->add('name', TextType::class)
-            ->add('email',  TextType::class)
-            ->add('phone', TextType::class)
-            ->add('text', TextareaType::class)
-            ->add('submit', SubmitType::class)
-            ->getForm();
+        $form = $this->createForm(FeedBackType::class, $feedback);
 
         $form->handleRequest($request);
 
@@ -77,12 +72,30 @@ class PagesController extends Controller
             $em->flush();
         }
 
-                $em = $this->getDoctrine()->getManager();
-                $cont = $em->getRepository(Contact::class)->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $cont = $em->getRepository(Contact::class)->findBy([], [
+            'addedAt' => 'DESC'
+        ]);
+//        $cont = $em->getRepository(Contact::class)->findAll();
+
+        // Проверка на наличие записей в базе
+        if (empty($cont)) {
+            // Если не было найдено ни одной записи -> то создаем новую
+            $newContact = new Contact();
+            // Устанавливаем текст по умолчанию
+            $newContact->setText('Приветствуем вас');
+            // С помощьюю EntityManager говорим, что будем сохранять новый объект
+            $em->persist($newContact);
+            // Выполнить все SQL команды
+            $em->flush();
+        } else {
+            // Берем самую первую запись (самую свежую, где addedAt наибольший)
+            $newContact = $cont[0];
+        }
 
         return $this->render('AppBundle:Pages:contacts.html.twig', [
             'form' => $form->createView(),
-            'cont' => $cont
+            'cont' => $newContact
         ]);
     }
 }

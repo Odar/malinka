@@ -1,26 +1,31 @@
 {% extends '::base.html.twig' %}
 
+{% block stylesheets %}
+{% endblock %}
+
 {% block content %}
-      Contacts
-    {# {{ cont.text|raw }}#}
+    {#{{ (cont|first).text|raw }}#}
+     {{ (cont.text|raw) }}
 
-      {% for item in cont %}
-          </br>{{ item.text}}
-          {% endfor %}
+    <h2>Форма обратной связи</h2>
 
-       {{ form_start(form) }}
-
-       {{ form_row(form.name, {'attr': {'class': 'input'}}) }}
-       {{ form_errors(form.name) }}
-     {#  {{ form_label(form.name) }} #}
-       {{ form_widget(form.name, {'attr': {'class':'my_input'}}) }}
-
-       {{ form_row(form.email) }}
-       {{ form_row(form.text) }}
-       {{ form_row(form.phone) }}
-       {{ form_row(form.submit) }}
-
-       {{ form_end(form) }}
-
+    {{ form_start(form) }}
+    <table cellpadding="0" cellspacing="0" width="100%" style="background-color:rgba(255,255,255,0.65)">
+        <tbody>
+        <tr>
+            <td id="contact3">
+                <p>Ваше имя: <span class="red"></span><br>{{ form_widget(form.name, {attr:{size:30}}) }}</p>
+                <p>E-mail: <span class="red"></span><br>{{ form_widget(form.email, {attr:{size:30}}) }}</p>
+                <p>Телефон: <span class="red"></span><br>{{ form_widget(form.phone, {attr:{size:30}}) }}</p>
+                <p></p>
+            </td>
+            <td id="contact3">
+                <p>Ваше сообщение или вопрос: <span class="red"></span><br><br>{{ form_widget(form.text, {attr: {cols:55, rows:9}} ) }}</p>
+                <p>{{ form_widget(form.submit) }}</p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+   {{ form_end(form) }}
 
 {% endblock %}
