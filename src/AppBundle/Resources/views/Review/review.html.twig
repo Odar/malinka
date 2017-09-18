@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    Отзывы
+    {{ dump(reviews) }}
+
+    <div style="width:85%;padding-top:10px" align="right">
+        <a href="{{ path('app_review_addreview') }}" style="color: rgb(208,68,39);">Добавить Отзыв</a>
+    </div>
+
+{% endblock %}

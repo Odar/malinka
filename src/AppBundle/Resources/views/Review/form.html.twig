@@ -1,0 +1,28 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    {{ form_start(form) }}
+<table style="width:400px">
+    <tbody>
+    <tr>
+        <td style="font-weight:bold" align="right"> Ваше Имя*: </td>
+        <td>{{ form_widget(form.name, {attr:{size:35}}) }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold" align="right"> Ваш Возраст: </td>
+        <td>{{ form_errors(form.age) }}{{ form_widget(form.age, {attr:{size:35}}) }}</td>
+    </tr>
+    <tr>
+        <td style="font-weight:bold;vertical-align:top" align="right"> Отзыв*: </td>
+        <td>{{ form_widget(form.text, {attr:{cols:35, rows:6}}) }}</td>
+    </tr>
+    <tr>
+        <td> </td>
+        <td>
+            {{ form_widget(form.submit) }}
+        </td>
+    </tr>
+    </tbody>
+</table>
+    {{ form_end(form) }}
+{% endblock %}
