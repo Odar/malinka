@@ -1,0 +1,29 @@
+{% extends '::base.html.twig' %}
+
+{% block content %}
+    {#{{ dump(reviews) }}#}
+<table>
+    <tbody>
+    <tr>
+        <td>
+            {% for item in reviews %}
+                <div style="width:85%;border-bottom:2px solid;color:rgb(208,68,39);padding-bottom:6px;padding-top:6px;" align="center">
+                    <div style="width:90%" align="left">
+                        <span style="font-family: helreg; font-size: 9pt; color: black; text-align: justify">
+                            <p style="font-weight: bold" >{{ item.name }}, {{ item.age }}</p>
+                            <p>{{ item.text }}</p>
+                            <a style="color:rgb(208,68,39)" href="{{ path ('app_review_review', {id: item.id}) }}">Подробнее</a>
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+    <div style="width:85%;padding-top:10px" align="right">
+        <a href="{{ path('app_review_addreview') }}" style="color: rgb(208,68,39);">Добавить Отзыв</a>
+    </div>
+
+{% endblock %}

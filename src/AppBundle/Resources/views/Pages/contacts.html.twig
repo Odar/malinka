@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block content %}
-    {#{{ (cont|first).text|raw }}#}
      {{ (cont.text|raw) }}
 
     <h2>Форма обратной связи</h2>
@@ -17,7 +16,6 @@
                 <p>Ваше имя: <span class="red"></span><br>{{ form_widget(form.name, {attr:{size:30}}) }}</p>
                 <p>E-mail: <span class="red"></span><br>{{ form_widget(form.email, {attr:{size:30}}) }}</p>
                 <p>Телефон: <span class="red"></span><br>{{ form_widget(form.phone, {attr:{size:30}}) }}</p>
-                <p></p>
             </td>
             <td id="contact3">
                 <p>Ваше сообщение или вопрос: <span class="red"></span><br><br>{{ form_widget(form.text, {attr: {cols:55, rows:9}} ) }}</p>

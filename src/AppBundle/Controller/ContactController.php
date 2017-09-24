@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\CompanyInfo;
@@ -16,39 +15,46 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class PagesController extends Controller
+class ContactController extends Controller
 {
     /**
-     * @Route("/kompanya", name="kompanya")
+     * @Route ("/contacts", name="contacts")
      */
-    public function kompanyaAction(Request $request)
+    public function contactAction(Request $request)
     {
-        // Вытащили EntityManager
-        $em = $this->getDoctrine()->getManager();
+        $feedback = new Feedback();
+        $form = $this->createForm(FeedBackType::class, $feedback);
 
-        // Получить из базы все записи CompanyInfo с сортировкой по полю addedAt по убыванию
-        $companyInfoAllRecords = $em->getRepository(CompanyInfo::class)->findBy([], [
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($feedback);
+            $em->flush();
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $cont = $em->getRepository(Contact::class)->findBy([], [
             'addedAt' => 'DESC'
         ]);
-
         // Проверка на наличие записей в базе
-        if (empty($companyInfoAllRecords)) {
+        if (empty($cont)) {
             // Если не было найдено ни одной записи -> то создаем новую
-            $newCompanyInfo = new CompanyInfo();
+            $newContact = new Contact();
             // Устанавливаем текст по умолчанию
-            $newCompanyInfo->setText('Приветствуем вас');
+            $newContact->setText('Приветствуем вас');
             // С помощьюю EntityManager говорим, что будем сохранять новый объект
-            $em->persist($newCompanyInfo);
+            $em->persist($newContact);
             // Выполнить все SQL команды
             $em->flush();
         } else {
             // Берем самую первую запись (самую свежую, где addedAt наибольший)
-            $newCompanyInfo = $companyInfoAllRecords[0];
+            $newContact = $cont[0];
         }
 
-        return $this->render('AppBundle:Pages:kompanya.html.twig', [
-            'companyInfo' => $newCompanyInfo
+        return $this->render('AppBundle:Pages:contacts.html.twig', [
+            'form' => $form->createView(),
+            'cont' => $newContact
         ]);
     }
 }
-
