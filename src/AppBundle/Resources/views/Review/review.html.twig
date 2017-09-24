@@ -1,11 +1,28 @@
 {% extends '::base.html.twig' %}
 
 {% block content %}
-    Отзывы
-    {{ dump(reviews) }}
-
-    <div style="width:85%;padding-top:10px" align="right">
-        <a href="{{ path('app_review_addreview') }}" style="color: rgb(208,68,39);">Добавить Отзыв</a>
+    {% if review.age is null %}
+        {% set ageText = '' %}
+    {% else %}
+        {% set ageText = ', '~review.age~' года' %}
+    {% endif %}
+<div id="node-47" class="node">
+    <div class="content clear-block">
+        <div style="width:100%" align="center">
+            <div style="width:85%" align="left">
+                <span style="font-family:helreg;font-size:10pt;color:black;text-align:justify">
+                    <b>{{ review.name }}{{ ageText }}</b><br>
+                    <p>{{ review.text }}</p>
+                </span>
+            </div>
+        </div>
     </div>
 
+    <div class="clear-block">
+        <div class="meta">
+        </div>
+
+    </div>
+
+</div>
 {% endblock %}

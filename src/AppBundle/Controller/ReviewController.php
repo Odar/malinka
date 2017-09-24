@@ -11,14 +11,16 @@ use Symfony\Component\HttpFoundation\Request;
 class ReviewController extends Controller
 {
     /**
-     * @Route("/reviews")
-     */
+    * @Route("/reviews")
+    */
     public function ReviewsAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $reviews = $em->getRepository(Review::class)->findAll();
+        $reviews = $em->getRepository(Review::class)->findBy([], [
+            'addedAt' => 'DESC'
+        ]);
 
-        return $this->render('AppBundle:Review:review.html.twig', [
+        return $this->render('AppBundle:Review:reviews.html.twig', [
             'reviews' => $reviews
         ]);
     }
@@ -41,6 +43,18 @@ class ReviewController extends Controller
 
         return $this->render('AppBundle:Review:form.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/review/{id}", requirements={"id": "\d+"})
+     */
+    public function ReviewAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $review = $em->getRepository(Review::class)->find($id);
+        return $this->render('@App/Review/review.html.twig', [
+            'review' => $review
         ]);
     }
 }
